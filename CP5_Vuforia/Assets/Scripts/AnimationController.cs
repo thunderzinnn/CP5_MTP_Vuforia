@@ -5,10 +5,12 @@ public class AnimationController : MonoBehaviour
     public Animator animator;
 
     private bool canInteract = false;
+    private float rotationSpeed = 0.25f;
 
     void Update()
     {
         CheckTouch();
+        CheckSwipe();
     }
 
 
@@ -41,6 +43,25 @@ public class AnimationController : MonoBehaviour
     void PlayAnimation()
     {
         animator.Play("Attack");
+    }
+
+    void CheckSwipe()
+    {
+        Touch touch = Input.GetTouch(0);
+
+        if (touch.phase == TouchPhase.Moved)
+        {
+            float movementx = touch.deltaPosition.x;
+            float movementy = touch.deltaPosition.y;
+             
+
+            RotateObject(movementx,movementy);
+        }
+    }
+
+    void RotateObject(float movementx, float movementy)
+    {
+        transform.Rotate(movementy * rotationSpeed, movementx * rotationSpeed, 0);
     }
 }
 
